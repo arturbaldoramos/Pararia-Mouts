@@ -1,0 +1,70 @@
+﻿@page
+@model Razor_Pages.Pages.venda.CreateModel
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+<h4>Venda</h4>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Venda.ClienteId" class="control-label">Cliente</label>
+                <select asp-for="Venda.ClienteId" class="form-control" asp-items="Model.ClienteSelectList">
+                    <option value="">-- Select Cliente (Optional) --</option>
+                </select>
+                <span asp-validation-for="Venda.ClienteId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Venda.FormaDePagamento" class="control-label">Forma de Pagamento</label>
+                <select asp-for="Venda.FormaDePagamento" class="form-control" asp-items="Model.FormaDePagamentoSelectList"></select>
+                <span asp-validation-for="Venda.FormaDePagamento" class="text-danger"></span>
+            </div>
+
+            <h5 class="mt-4">Produtos</h5>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Produto</th>
+                        <th>Quantidade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.ProdutoSelectList.Count(); i++)
+                    {
+                        <tr>
+                            <td>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="SelectedProdutoIds" value="@Model.ProdutoSelectList.ElementAt(i).Value" id="produto@(i)" />
+                                    <label class="form-check-label" for="produto@(i)">
+                                        @Model.ProdutoSelectList.ElementAt(i).Text
+                                    </label>
+                                </div>
+                            </td>
+                            <td>
+                                <input type="number" name="ProdutoQuantidades" value="0" min="0" class="form-control" />
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
